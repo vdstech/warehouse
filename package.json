@@ -1,0 +1,25 @@
+{
+  "name": "warehouse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "vgs.com",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "custom-id": "^1.2.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "formidable": "^1.2.2",
+    "jsonwebtoken": "^8.5.1",
+    "loadash": "^1.0.0",
+    "mongoose": "^5.10.14",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.6",
+    "uuid": "^3.3.2"
+  }
+}
