@@ -5,8 +5,8 @@ exports.findUserById = async (req, res, next, id) => {
     console.log(__filename, '(findUserById)')
 
     try {
-        var user = await User.findById(id)
-        req.profile = user
+        var user = await User.findById(id).populate('wlists')
+        req.profile = user.toObject({ virtuals: true })
         next()
     }
     catch(err) {
@@ -15,7 +15,7 @@ exports.findUserById = async (req, res, next, id) => {
 }
 
 
-// User address related functions.
+// ********************** User Address related functions start ***********************
 exports.isUniqueAddressTag = (req, res, next) => {
     user = req.profile
     addresses = user.addresses
@@ -90,6 +90,10 @@ exports.removeAddresses = (req, res) => {
     })
 }
 
+// ********************** User Address related functions end ***********************
+
+
+// ********************** User cart related functions start *************************
 exports.addToCart = (req, res) => {
     console.log(__filename, '(addToCart)')
     user = req.profile
@@ -184,3 +188,5 @@ function getProductFromUserCart(user, prodObj) {
         return prod
     }
 }
+
+// ********************** User cart related functions end *************************
