@@ -70,6 +70,6 @@ const productSchema = new mongoose.Schema({
         type: String,
         minlength: 5
     }
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Product', productSchema)

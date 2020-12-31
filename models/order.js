@@ -38,6 +38,6 @@ var orderSchema = new mongoose.Schema({
         type: String,
         required: false
     }
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Order', orderSchema)

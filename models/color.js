@@ -9,6 +9,6 @@ var colorSchema = new mongoose.Schema({
         type: String,
         required: color
     }
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model("Color", colorSchema)
