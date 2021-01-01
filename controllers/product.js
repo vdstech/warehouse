@@ -72,11 +72,12 @@ function isPhotosGreaterThan2Mb(files) {
         var len = files.photo.length
         for (i = 0; i < len; i++) {
             var file = files.photo[i]
-            if (file.size > 2000000) {
-                return false
+            console.log('file size ========= ', file.size)
+            if (file.size > 20_00_000) {
+                return true
             }
         }
-        return true
+        return false
     }
     else {
         console.log('(isPhotosLessThan2Mb) The file size is ', (files.photo.size > 2000000))
@@ -223,12 +224,12 @@ function parseFilters(filters) {
 async function uploadFiles(files) {
     var paths = []
     if (Array.isArray(files)) {
-
-        var len = files.photo.length
+        console.log('The files is array ======= ', Array.isArray(files))
+        var len = files.length
         var promises = []
         for (i = 0; i < len; i++) {
-            var file = files.photo[i]
-            var path = saveFile(files.photo[i])
+            var file = files[i]
+            var path = saveFile(file)
             paths.push(path)
         }
     }

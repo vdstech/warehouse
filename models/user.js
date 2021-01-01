@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const crypto = require('crypto')
 const {v1: uuidv1} = require('uuid')
-const Cart = require('../models/cart')
-const Wishlist = require('../models/wishlist')
+//const Cart = require('../models/cart')
+//const Wishlist = require('../models/wishlist')
 
 var addressSchema = new mongoose.Schema({
     address: {
@@ -61,7 +61,6 @@ var userSchema = new mongoose.Schema({
         type: addressSchema,
         required: false
     }],
-    cart: [Cart.schema],
 }, {timestamps : true})
 
 userSchema.virtual('password')
@@ -78,6 +77,14 @@ userSchema.virtual('wlists', {
         ref: 'Wishlists',
         localField: '_id',
         foreignField: 'user',
+    },
+    { toJSON: { virtuals: true }, toObject: { virtuals: true }}
+)
+
+userSchema.virtual('cart', {
+        ref: 'Cart',
+        localField: '_id',
+        foreignField: 'user'
     },
     { toJSON: { virtuals: true }, toObject: { virtuals: true }}
 )

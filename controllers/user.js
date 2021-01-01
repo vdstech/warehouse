@@ -5,7 +5,7 @@ exports.findUserById = async (req, res, next, id) => {
     console.log(__filename, '(findUserById)')
 
     try {
-        var user = await User.findById(id).populate('wlists')
+        var user = await User.findById(id).populate(['wlists', 'cart'])
         req.profile = user.toObject({ virtuals: true })
         next()
     }
@@ -91,102 +91,3 @@ exports.removeAddresses = (req, res) => {
 }
 
 // ********************** User Address related functions end ***********************
-
-
-// ********************** User cart related functions start *************************
-exports.addToCart = (req, res) => {
-    console.log(__filename, '(addToCart)')
-    user = req.profile
-
-    products = req.body
-    console.log(__filename, "(addToCart) products = ", products)
-
-    for (i = 0, j = products.length; i < j; i++) {
-        cart = new Cart(products[i])
-        cartProduct = getProductFromUserCart(user, cart)
-        if (!cartProduct) {
-            user.cart.push(cart)
-        }
-        else {
-            cartProduct.quantity = cart.quantity + cartProduct.quantity
-        }
-    }
-
-    user.save().then((updatedUser) => {
-        res.status(200).json(updatedUser)
-    })
-    .catch((err) => {
-        res.status(200).json(err)
-    })
-}
-
-exports.updateQuantity = (req, res) => {
-    console.log(__filename, '(updateQuantity)')
-    user = req.profile
-
-    cart = new Cart(req.body)
-
-    // if the product is already in the user cart, increase the count by 1.
-    cartProduct = getProductFromUserCart(user, cart)
-    if (!cartProduct) {
-        return res.status(401).json({msg: 'No Product found in the user category'})
-    }
-
-    cartProduct.quantity = cart.quantity
-
-    // save the quantity.
-    user.save().then((updatedUser) => {
-        res.status(200).json(updatedUser)
-    })
-    .catch((err) => {
-        res.status(200).json(err)
-    })
-}
-
-exports.removeFromCart = (req, res) => {
-    console.log(__filename, '(removeFromCart)')
-    user = req.profile
-
-    products = req.body
-    console.log(__filename, "(removeFromCart) products = ", products)
-
-    for (i = 0, j = products.length; i < j; i++) {
-        cart = new Cart(products[i])
-        cartProduct = getProductFromUserCart(user, cart)
-        if (!cartProduct) {
-            return res.status(401).json({msg: 'Product not found in the cart'})
-        }
-
-        user.cart.id(cartProduct._id).remove()
-    }
-
-    user.save().then((updatedUser) => {
-        res.status(200).json(updatedUser)
-    })
-    .catch((err) => {
-        res.status(401).json(err)
-    })
-}
-
-/**
- * parameters:
- * user - The logged in user.
- * product - The product in the form of cartProduct to search
- * {product: '', quantity: 4}
- */
-function getProductFromUserCart(user, prodObj) {
-    console.log(__filename, '(getProductFromUserCart)')
-    var found = user.cart.filter(obj => {
-        productEqual = obj.product.equals(prodObj.product)
-        return productEqual
-    })
-
-    if (found.length > 0) {
-        prod = found[0]
-        console.log(__filename, '(getProductFromUserCart) found the product in the user cart = ', prod)
-
-        return prod
-    }
-}
-
-// ********************** User cart related functions end *************************
