@@ -14,6 +14,18 @@ exports.findUserById = async (req, res, next, id) => {
     }
 }
 
+exports.fetchUserHistory = (req, res) => {
+    console.log(__filename, '(fetchUserHistory)')
+
+    User.findById(req.profile._id).populate(['wlists', 'cart', 'orders']).then((user) => {
+        res.status(200).json(user.toObject({virtuals: true}))
+    })
+    .catch((err) => {
+        console.log(__filename, '(fetchUserHistory) Error occured while fetching complete user details. ', err)
+        res.status(401).json(err)
+    })
+}
+
 
 // ********************** User Address related functions start ***********************
 exports.isUniqueAddressTag = (req, res, next) => {
