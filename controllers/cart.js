@@ -47,7 +47,7 @@ exports.update = (req, res) => {
 exports.list = (req, res) => {
     console.log(__filename, '(list)')
 
-    Cart.find({user: ObjectID(req.profile._id)}).populate('cart').then((user) => {
+    Cart.find({user: ObjectID(req.profile._id)}).then((user) => {
         res.status(200).json(user)
     })
     .catch((err) => {
