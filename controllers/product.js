@@ -51,6 +51,7 @@ function saveProduct(req, res, fields, paths, stylesList, worksList, fabricsList
 
     var {category, name, description, price, quantity, code, care} = fields
     var product = new Product({category, name, description, price, quantity, code, care})
+
     product.seller = req.profile._id
     product.photos = paths
     product.style = stylesList
@@ -72,7 +73,6 @@ function isPhotosGreaterThan2Mb(files) {
         var len = files.photo.length
         for (i = 0; i < len; i++) {
             var file = files.photo[i]
-            console.log('file size ========= ', file.size)
             if (file.size > 20_00_000) {
                 return true
             }
@@ -240,7 +240,7 @@ async function uploadFiles(files) {
     return paths
 }
 
-async function saveFile(file) {
+function saveFile(file) {
 
     var oldpath = file.path
     var newpath = process.env.PWD + '/' + 'uploads/' + oldpath.split('/')[6] + '.jpeg'
