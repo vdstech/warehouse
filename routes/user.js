@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const {findUserById, fetchUserHistory, isUniqueAddressTag, addressAdd, addressUpdate, listAddresses,
-    removeAddresses} = require('../controllers/user')
+const {findUserById, fetchUserHistory} = require('../controllers/user')
 const {extractTokenInfo, isAuth} = require('../controllers/auth')
+const {isUniqueAddressTag, addressAdd, addressUpdate,
+    listAddresses, removeAddresses} = require('../controllers/address')
 
 
 router.get('/user/history/:userId', extractTokenInfo, isAuth, fetchUserHistory)

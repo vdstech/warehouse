@@ -14,22 +14,24 @@ exports.create = async (req, res) => {
         return res.status(401).json({msg: 'Products not valid'})
     }
 
+    //generate razor pay id and associate with each order create here.
+
     //create razor pay orderid
     user = req.profile
     orders = []
     for (i = 0, j = cart.length; i < j; i++) {
-        cart = cart[0]
+        cart = cart[i]
         var {product, quantity} = cart
         orders.push(new Order({product, quantity, 'user': user._id, address, 'razorpay_order_id': 123}))
         user.cart.push(cart)
     }
 
-    /*Orders.insertMany(orders).then((insertedOrders) => {
-        //
+    Orders.insertMany(orders).then((insertedOrders) => {
+
     })
     .catch((err) => {
 
-    })*/
+    })
 
 
     // buy immediate -> create order id and ask for payment.
@@ -48,13 +50,12 @@ exports.create = async (req, res) => {
         user.cart.push(cart)
     }*/
 
-    res.status(200).json(user)
+    //res.status(200).json(user)
 }
 
 async function productsAllValid(products) {
     pids = []
     for (i = 0, j = products.length; i < j; i++) {
-        console.log('Got the product ============= ', products[i].product)
         pids.push(products[i].product)
     }
     console.log('(productsAllValid) The product ids to verify = ', pids)

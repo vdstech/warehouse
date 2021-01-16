@@ -5,11 +5,15 @@ const customId = require("custom-id"); // this is used to generate custom id
 require('dotenv').config()
 
 exports.signUp = (req, res) => {
-    console.log('Login info sent = ', req.body)
     const user = new User(req.body)
+    var email = user.email
+    user.name = email.substring(0, email.lastIndexOf("@"));
+
     user.save().then((usr) => {
         res.status(200).json(usr)
-    }).catch((err) => {
+    })
+    .catch((err) => {
+        console.log(__filename, '(signUp) Error occured while signing up the user = ', req.body)
         res.status(401).json(err)
     })
 }

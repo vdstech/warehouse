@@ -20,7 +20,6 @@ var addressSchema = new mongoose.Schema({
 var userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
         trim: true,
         maxlength: 30,
         minlength: 3
@@ -31,6 +30,11 @@ var userSchema = new mongoose.Schema({
         trim: true,
         unique: true,
         lowercase: true
+    },
+    mobileNumber: {
+        type: String,
+        required: true,
+        unique: true
     },
     hashed_password: {
         type: String,
@@ -55,6 +59,16 @@ var userSchema = new mongoose.Schema({
         type: addressSchema,
         required: false
     }],
+    emailVerifyStatus: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    mobileVerifyStatus: {
+        type: Boolean,
+        required: false,
+        default: false
+    }
 }, {timestamps : true})
 
 userSchema.virtual('password')

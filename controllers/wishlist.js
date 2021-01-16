@@ -46,7 +46,8 @@ exports.remove = (req, res) => {
 exports.removeById = (req, res) => {
     console.log(__filename, '(removeById)')
 
-    Wishlists.deleteOne({_id: req.params.p1, user: ObjectID(req.profile._id)}).then((doc) => {
+    Wishlists.deleteOne({_id: req.params.p1, user: ObjectID(req.profile._id)})
+    .then((doc) => {
         res.status(200).json(doc)
     })
     .catch((err) => {
@@ -57,7 +58,8 @@ exports.removeById = (req, res) => {
 exports.listTags = (req, res) => {
     console.log(__filename, '(listTags)')
 
-    Wishlists.distinct('tag', {user: req.profile._id}).then((docs) => {
+    Wishlists.distinct('tag', {user: req.profile._id})
+    .then((docs) => {
         res.status(200).json(docs)
     })
     .catch((err) => {

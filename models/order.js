@@ -20,6 +20,7 @@ var orderSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
+        required: true,
         ref: 'User'
     },
     address: {
@@ -39,5 +40,13 @@ var orderSchema = new mongoose.Schema({
         required: false
     }
 }, {timestamps: true})
+
+orderSchema.virtual('password')
+.set(function(password) {
+    this.seller = password
+})
+.get(function() {
+    return this.seller
+})
 
 module.exports = mongoose.model('Order', orderSchema)
