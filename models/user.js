@@ -26,10 +26,11 @@ var userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
         unique: true,
-        lowercase: true
+        lowercase: true,
+        sparse: true
     },
     mobileNumber: {
         type: String,
@@ -102,6 +103,19 @@ userSchema.virtual('orders', {
     localField: '_id',
     foreignField: 'user'
 })
+
+// Create a virtual property `domain` that's computed from `email`.
+userSchema.virtual('roleName').get(function() {
+    if (this.role === 0) {
+        return 'User'
+    }
+    else if (this.role == 1) {
+        return 'Seller'
+    }
+    else if (this.role == 3) {
+        return 'Admin'
+    }
+});
 
 userSchema.methods = {
     encryptPassword: function(password) {

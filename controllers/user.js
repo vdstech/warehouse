@@ -5,8 +5,8 @@ exports.findUserById = async (req, res, next, id) => {
     console.log(__filename, '(findUserById)')
 
     try {
-        var user = await User.findById(id).populate(['wlists', 'cart'])
-        req.profile = user.toObject({ virtuals: true })
+        var user = await User.findById(id)
+        req.profile = user
         next()
     }
     catch(err) {

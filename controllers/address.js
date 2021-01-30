@@ -4,6 +4,14 @@ exports.isUniqueAddressTag = (req, res, next) => {
     user = req.profile
     addresses = user.addresses
     var newTag = req.body.tag
+
+    var foundTag = addresses.filter((val) => {
+        val.tag === newTag
+    })
+
+    console.log('The found == ', found)
+
+
     for (i = 0, j = addresses.length; i < j; i++) {
         if (newTag === addresses[i].tag) {
             return res.status(401).json({msg: 'Unique address tag is required'})

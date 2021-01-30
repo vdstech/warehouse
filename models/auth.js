@@ -7,6 +7,14 @@ require('dotenv').config()
 exports.signUp = (req, res) => {
     console.log('Login info sent = ', req.body)
     const user = new User(req.body)
+    user.save().then((result) => {
+        res.status(200).json({
+            result
+        })
+    })
+    .catch((err) => {
+        res.status(401).json(err)
+    })
     user.save((err, result) => {
         if (err || !result) {
             res.status(401).json({
