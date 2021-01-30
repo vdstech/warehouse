@@ -15,7 +15,12 @@ exports.registrationRules = [
     body('mobileNumber').exists().notEmpty().isLength({min:13, max:13}).withMessage('Invalid mobile Number'),
 ]
 
-exports.registationRulesCheck = (req, res, next) => {
+exports.loginRules = [
+    body('name').exists().notEmpty().withMessage('Name should not be empty'),
+    body('password').exists().notEmpty().withMessage('Password should not be empty')
+]
+
+exports.validationRulesCheck = (req, res, next) => {
     var errors = validationResult(req).mapped()
     if (_.isEmpty(errors) && _.isPlainObject(errors)) {
         return next()
