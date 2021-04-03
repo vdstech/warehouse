@@ -13,6 +13,7 @@ const userRoute = require('./routes/user')
 const orderRoute = require('./routes/order')
 const wishlistRoute = require('./routes/wishlist')
 const cartRoute = require('./routes/cart')
+const sellerReqRouter = require('./routes/seller-request')
 
 // configuring the environ props file.
 dotenv.config()
@@ -42,6 +43,7 @@ app.use('/', userRoute)
 app.use('/', orderRoute)
 app.use('/', wishlistRoute)
 app.use('/', cartRoute)
+app.use('/', sellerReqRouter)
 
 var port = process.env.PORT || 8000
 app.listen(port, () => {

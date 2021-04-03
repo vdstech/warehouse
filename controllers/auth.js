@@ -91,9 +91,15 @@ exports.isAuth = (req, res, next) => {
     next()
 }
 
+exports.isSeller = (req, res, next) => {
+    if (req.profile.roleName === 'Seller') {
+        return next()
+    }
+    return res.status(401).json({msg: 'The logged-in user is not seller'})
+}
 
 exports.isAdmin = (req, res, next) => {
-    if (req.profile.roleName === 'User') {
+    if (req.profile.roleName === 'User' || req.profile.roleName === 'Seller') {
         return res.status(401).json({msg: 'User has no admin access'})
     }
     next()
@@ -135,5 +141,25 @@ exports.verifyMobileNumber = (req, res) => {
     }
     else {
         res.status(401).json(otpVerifyResult)
+    }
+}
+
+exports.isEmailVerified = (req, res, next) => {
+    console.log(__filename, '(isEmailVerified) profile = ', req.profile)
+    if (req.profile.emailVerifyStatus) {
+        next()
+    }
+    else {
+        return res.status(401).json({msg: 'Email not verified'})
+    }
+}
+
+exports.isMobileVerified = (req, res, next) => {
+    console.log(__filename, '(isMobileVerified) profile = ', req.profile)
+    if (req.profile.mobileVerifyStatus) {
+        next()
+    }
+    else {
+        return res.status(401).json({msg: 'Mobile number not verified'})
     }
 }

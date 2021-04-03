@@ -3,6 +3,7 @@ const Style = require('../models/style')
 const Fabric = require('../models/fabric')
 const Occasion = require('../models/occasion')
 const Work = require('../models/work')
+const Category = require('../models/category')
 const fs = require('fs')
 const path = require('path')
 const formidable = require('formidable')
@@ -29,7 +30,7 @@ exports.create = (req, res) => {
         occasionsList = parseFilters(occasions)
         colorsList = parseFilters(colors)
 
-        const promises = [verifyFilters('Style', stylesList), verifyFilters('Work', worksList), verifyFilters('Fabric', fabricsList),
+        const promises = [verifyFilters('Category', [category]), verifyFilters('Style', stylesList), verifyFilters('Work', worksList), verifyFilters('Fabric', fabricsList),
                                                         verifyFilters('Occasion', occasionsList)]
         const validators = await Promise.all(promises)
         filtersValidation = validators.every(choice => (choice == true))
@@ -202,6 +203,15 @@ async function verifyFilters(filter, ids) {
             case "Fabric":
                 docs = await Fabric.find().where('_id').in(ids)
                 break
+
+            case 'Category':
+                console.log('The Category ==== ids = ',  ids)
+                cats = await Category.find().where('_id').in(ids)
+                docs = [cats]
+
+                console.log('docs length ========== ', docs.length, ', ids length = ', ids.length)
+            break;
+
 
         }
     } catch(err) {

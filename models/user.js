@@ -109,10 +109,10 @@ userSchema.virtual('roleName').get(function() {
     if (this.role === 0) {
         return 'User'
     }
-    else if (this.role == 1) {
+    else if (this.role === 1) {
         return 'Seller'
     }
-    else if (this.role == 3) {
+    else if (this.role === 2) {
         return 'Admin'
     }
 });

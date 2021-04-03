@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator')
+const { body, oneOf, check, validationResult } = require('express-validator')
 const _ = require('lodash')
 
 exports.registrationRules = [
@@ -16,7 +16,10 @@ exports.registrationRules = [
 ]
 
 exports.loginRules = [
-    body('name').exists().notEmpty().withMessage('Name should not be empty'),
+    oneOf([
+        check('email').exists(),
+        check('mobileNumber').exists()
+    ], 'Mobile number or email should not be empty'),
     body('password').exists().notEmpty().withMessage('Password should not be empty')
 ]
 

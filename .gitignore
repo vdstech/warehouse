@@ -2,3 +2,5 @@ dbfiles/
 images/
 uploads/
 node_modules/
+data/
+file-uploads/
